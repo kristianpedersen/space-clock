@@ -5,6 +5,9 @@ from astropy import units as u
 from astropy.coordinates import get_body, get_sun
 from astropy.coordinates import solar_system_ephemeris, EarthLocation
 from astropy.time import Time, TimeDelta
+from flask import Flask, send_from_directory
+
+app = Flask(__name__)
 
 
 def add_leading_zero(number):
@@ -49,15 +52,17 @@ final_output = []
 
 
 def get_star_date(ly):
-    body_distance_light_days = ((ly * u.lightyear).to(u.lightyear) * LIGHT_DAY).value
+    body_distance_light_days = (
+        (ly * u.lightyear).to(u.lightyear) * LIGHT_DAY).value
     time_delta = TimeDelta(body_distance_light_days)
     observed_time = current_time - time_delta
-    print(observed_time)
+    # print(observed_time)
 
 
 def get_body_time(body, name):
     # Get distance in light days, because that's how AstroPy's TimeDelta function works
-    body_distance_light_days = (body.distance.to(u.lightyear) * LIGHT_DAY).value
+    body_distance_light_days = (
+        body.distance.to(u.lightyear) * LIGHT_DAY).value
     time_delta = TimeDelta(body_distance_light_days)
     observed_time = current_time - time_delta
 
@@ -68,7 +73,8 @@ def get_body_time(body, name):
     time_difference_hours = int(str(time_difference).split(":")[0])
     time_difference_minutes = int(str(time_difference).split(":")[1])
 
-    time_difference_string = ""  # We want a string that says "x hour(s) and y minute(s) ago"
+    # We want a string that says "x hour(s) and y minute(s) ago"
+    time_difference_string = ""
 
     if time_difference_hours == 1:
         time_difference_string = "1 time og "
@@ -93,7 +99,7 @@ def get_body_time(body, name):
     })
 
 
-print(f"Hei! Velkommen til jorda. Klokka er nå {current_time_formatted}")
+# print(f"Hei! Velkommen til jorda. Klokka er nå {current_time_formatted}")
 with solar_system_ephemeris.set("jpl"):
     sun = get_sun(current_time)
     get_body_time(sun, "Sola")
@@ -105,4 +111,25 @@ with solar_system_ephemeris.set("jpl"):
 for body in far_stuff:
     get_star_date(body["distance"])
 
-print(final_output)
+# print(final_output)
+
+# Flask
+
+
+@app.route("/")
+def hello():
+    return send_from_directory("client/public", "index.html")
+
+
+@app.route("/<path:path>")
+def home(path):
+    return send_from_directory('client/public', path)
+
+
+@app.route("/planetinfo")
+def get_planet_info():
+    return final_output
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

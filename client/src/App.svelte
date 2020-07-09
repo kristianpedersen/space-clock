@@ -1,5 +1,4 @@
 <script>
-  import Button from "./Button.svelte";
   import Clock from "./Clock.svelte";
   export let name;
   let count;
@@ -28,8 +27,6 @@
 </style>
 
 <main>
-<h1>Solar system clock</h1>
-<Clock />
+  <h1>Solar system clock!!</h1>
+  <!-- <Clock /> -->
 </main>
-
-<input type="text" bind:value={name} />
