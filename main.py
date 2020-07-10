@@ -1,90 +1,135 @@
 import datetime
+import pytz
 
-from astropy import units
+from astropy import units as u
 from astropy.coordinates import get_body, get_sun
 from astropy.coordinates import solar_system_ephemeris, EarthLocation
-from astropy.time import Time
-from flask import Flask
+from astropy.time import Time, TimeDelta
+from flask import Flask, send_from_directory
 
-Gjovik = EarthLocation.from_geodetic(60.79574, 10.69155)
-today = Time.now()
-NOW = Time.now().to_datetime()
-LIGHT_MINUTE = (1 * units.year).to(units.minute).value
-
-# app = Flask(__name__)
+app = Flask(__name__)
 
 
-# @app.route("/rand")
-# def hei():
-#     return str("Hei!")
-
-# if __name__ == "__main__":
-# 	app.run(debug=True)
+def add_leading_zero(number):
+    if number < 10:
+        return f"0{number}"
+    return f"{number}"
 
 
-# Name is used to query astropy
-# Year is each planet's number of earth years to orbit the sun
+LIGHT_MINUTE = (1 * u.year).to(u.minute).value
+LIGHT_DAY = (1 * u.year).to(u.day).value
+
+time_string = Time.now().to_datetime(timezone=pytz.timezone("Europe/Oslo"))
+time_string = str(time_string).split(".")[0]
+current_time = Time(time_string)
+observation_location = EarthLocation.from_geodetic(60.79574, 10.69155)
+
+current_year = current_time.to_datetime().year
+current_time_hour = add_leading_zero(current_time.to_datetime().hour)
+current_time_minute = add_leading_zero(current_time.to_datetime().minute)
+current_time_formatted = f"{current_time_hour}:{current_time_minute}"
+
 planets = [
-    {"name": "Mercury", "navn": "Merkur"},
-    {"name": "Venus", "navn": "Venus"},
-    {"name": "Mars", "navn": "Mars", "year": 365.25 / 687},
-    {"name": "Jupiter", "navn": "Jupiter", "year": 12},
-    {"name": "Saturn", "navn": "Saturn", "year": 29},
-    {"name": "Uranus", "navn": "Uranus", "year": 84},
-    {"name": "Neptune", "navn": "Neptun", "year": 165},
-    {"name": "Pluto", "navn": "Pluto", "year": 248}
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",  # It's not a planet, but everyone loves Pluto
 ]
 
+# extrasolar_objects = [
+#     {"name": "Proxima Centauri", "distance": "litt over 4 år", "info": "den nærmeste stjerna utenom sola"},
+#     {"name": "Sirius", "distance": "8½ år", "info": "den mest lyssterke stjerna på nattehimmelen"},
+#     {"name": "TRAPPIST-planetene", "distance": "ca. 39 år", "info": "et planetsystem med en jordlignende planet"},
+#     {"name": "Alkaid", "distance": "104 år", "info": },
+#     {"name": "Polaris", "distance": "323 år"},
+# ]
 
-def get_light_minutes(body):
-    return (body.distance).to(units.lightyear).value * LIGHT_MINUTE
-
-
-# The planets should have accurate distances, given how much they change in relation to Earth
-def get_planet_time(planet):
-    body = get_body(planet["name"], today, Gjovik)
-
-    # Get current time minus planet's distance in light minutes
-    lm_to_day = get_light_minutes(body) / 1440
-    neg_delta = datetime.timedelta(lm_to_day)
-    neg_delta_hour = int(str(neg_delta).split(':')[0])
-    neg_delta_minute = int(str(neg_delta).split(':')[1])
-
-    # Format hour difference
-    if neg_delta_hour == 0:
-        neg_delta_hour_text = ""
-    elif neg_delta_hour == 1:
-        neg_delta_hour_text = "1 time og "
-    else:
-        neg_delta_hour_text = f"{neg_delta_hour} timer og "
-
-    # Format minute difference
-    if neg_delta_minute == 0:
-        neg_delta_minute_text = ""
-    elif neg_delta_minute == 1:
-        neg_delta_minute_text = "1 minutt"
-    else:
-        neg_delta_minute_text = f"{neg_delta_minute} minutter"
-
-    neg_delta_text = neg_delta_hour_text + neg_delta_minute_text
-
-    # Show planet's time (HH:MM)
-    planet_time = (NOW - neg_delta).time()
-    hours = planet_time.hour
-    minutes = planet_time.minute
-    if hours < 10:
-        hours = f"0{hours}"
-    if minutes < 10:
-        minutes = f"0{minutes}"
+final_output = []
 
 
-    planetnavn = planet["navn"]
-    print(f"{planetnavn} {hours}:{minutes} ({neg_delta_text})")
+def get_star_date(ly):
+    body_distance_light_days = (
+        (ly * u.lightyear).to(u.lightyear) * LIGHT_DAY).value
+    time_delta = TimeDelta(body_distance_light_days)
+    observed_time = current_time - time_delta
+    return observed_time
+
+
+def get_body_time(body, name):
+    # Get distance in light days, because that's how AstroPy's TimeDelta function works
+    body_distance_light_days = (
+        body.distance.to(u.lightyear) * LIGHT_DAY).value
+    time_delta = TimeDelta(body_distance_light_days)
+    observed_time = current_time - time_delta
+
+    hour = add_leading_zero(observed_time.to_datetime().hour)
+    minute = add_leading_zero(observed_time.to_datetime().minute)
+
+    time_difference = (current_time - observed_time).to_datetime()
+    time_difference_hours = int(str(time_difference).split(":")[0])
+    time_difference_minutes = int(str(time_difference).split(":")[1])
+
+    # We want a string that says "x hour(s) and y minute(s) ago"
+    time_difference_string = ""
+
+    if time_difference_hours == 1:
+        time_difference_string = "1 time og "
+    elif time_difference_hours > 1:
+        time_difference_string = f"{time_difference_hours} timer og "
+
+    if time_difference_minutes == 1:
+        time_difference_string += "1 minutt"
+    elif time_difference_minutes > 1:
+        time_difference_string += f"{time_difference_minutes} minutter"
+
+    if name == "Mercury":
+        name = "Merkur"
+    if name == "Neptune":
+        name = "Neptun"
+
+    final_output.append({
+        "name": name,
+        "time": f"{hour}:{minute}",
+        "delta": time_difference_string
+    })
 
 
 with solar_system_ephemeris.set("jpl"):
-    for p in planets:
-        get_planet_time(p)
-    sun = get_sun(Time.now())
-    print(sun.distance)
-    # print(get_planet_time(sun))
+    sun = get_sun(current_time)
+    get_body_time(sun, "Sola")
+
+    for planet_name in planets:
+        planet = get_body(planet_name, current_time, observation_location)
+        get_body_time(planet, planet_name)
+
+# for body in extrasolar_objects:
+#     final_output.append({
+#         "name": body["name"],
+#         "delta": body["distance"]
+#     })
+
+
+print(final_output)
+
+
+@app.route("/")
+def hello():
+    return send_from_directory("client/public", "index.html")
+
+
+@app.route("/<path:path>")
+def home(path):
+    return send_from_directory('client/public', path)
+
+
+@app.route("/get-body-info")
+def get_planet_info():
+    return str(final_output)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
