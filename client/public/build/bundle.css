@@ -1,5 +1,5 @@
-main.svelte-1cp0utu{text-align:center;padding:1em;max-width:240px;margin:0 auto}h1.svelte-1cp0utu{color:#ff3e00;text-transform:uppercase;font-size:4em;font-weight:100}@media(min-width: 640px){main.svelte-1cp0utu{max-width:none}}
-.space-object.svelte-zc1rbg{border:1px solid black;border-radius:4px;padding:10px;margin:10px;max-width:25%;display:inline-block}
+main.svelte-1yrsg16{text-align:center;padding:1em;max-width:240px;margin:0 auto}#solar-system-objects.svelte-1yrsg16{display:flex;flex-wrap:wrap;justify-content:center}h1.svelte-1yrsg16{font-size:4em}h1.svelte-1yrsg16{color:hsl(20, 100%, 50%);text-transform:uppercase;font-weight:100;display:block}@media(min-width: 640px){main.svelte-1yrsg16{max-width:none}}header.svelte-1yrsg16{margin-bottom:40px}
+h1.svelte-hyq8xu{text-transform:uppercase}.space-object.svelte-hyq8xu{border:1px solid black;border-radius:4px;padding:10px;margin:10px;flex:0 0 25%}
 .body.svelte-mz7czh{background-color:pink;border:1px solid black;border-radius:4px;padding:10px;margin:10px 0}
 
 /*# sourceMappingURL=bundle.css.map */

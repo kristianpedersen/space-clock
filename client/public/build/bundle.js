@@ -436,12 +436,9 @@ var app = (function () {
     	let t1;
     	let p;
     	let t2;
-    	let t3_value = /*object*/ ctx[0].name + "";
+    	let t3_value = /*object*/ ctx[0].delta + "";
     	let t3;
     	let t4;
-    	let t5_value = /*object*/ ctx[0].delta + "";
-    	let t5;
-    	let t6;
 
     	const block = {
     		c: function create() {
@@ -450,15 +447,14 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			p = element("p");
-    			t2 = text("Når du ser på ");
+    			t2 = text("You're seeing what it looked like ");
     			t3 = text(t3_value);
-    			t4 = text(" ser du ");
-    			t5 = text(t5_value);
-    			t6 = text(" tilbake i tid.");
-    			add_location(h1, file, 16, 2, 247);
-    			add_location(p, file, 17, 2, 272);
-    			attr_dev(div, "class", "space-object svelte-zc1rbg");
-    			add_location(div, file, 15, 0, 218);
+    			t4 = text(" ago");
+    			attr_dev(h1, "class", "svelte-hyq8xu");
+    			add_location(h1, file, 18, 2, 261);
+    			add_location(p, file, 19, 2, 286);
+    			attr_dev(div, "class", "space-object svelte-hyq8xu");
+    			add_location(div, file, 17, 0, 232);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -472,13 +468,10 @@ var app = (function () {
     			append_dev(p, t2);
     			append_dev(p, t3);
     			append_dev(p, t4);
-    			append_dev(p, t5);
-    			append_dev(p, t6);
     		},
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*object*/ 1 && t0_value !== (t0_value = /*object*/ ctx[0].name + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*object*/ 1 && t3_value !== (t3_value = /*object*/ ctx[0].name + "")) set_data_dev(t3, t3_value);
-    			if (dirty & /*object*/ 1 && t5_value !== (t5_value = /*object*/ ctx[0].delta + "")) set_data_dev(t5, t5_value);
+    			if (dirty & /*object*/ 1 && t3_value !== (t3_value = /*object*/ ctx[0].delta + "")) set_data_dev(t3, t3_value);
     		},
     		i: noop,
     		o: noop,
@@ -560,11 +553,11 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
+    	child_ctx[2] = list[i];
     	return child_ctx;
     }
 
-    // (1:0) <script>   import Body from "./Body.svelte";   const bodyDataRequest = getBodyInformation();   const t = getTime();   let ticks = 0;    function addLeadingZero(n) {     if (n < 10) {       return "0" + n;     }
+    // (1:0) <script>   import Body from "./Body.svelte";   const bodyDataRequest = getBodyInformation();    function addLeadingZero(n) {     if (n < 10) {       return "0" + n;     }
     function create_catch_block(ctx) {
     	const block = {
     		c: noop,
@@ -579,18 +572,18 @@ var app = (function () {
     		block,
     		id: create_catch_block.name,
     		type: "catch",
-    		source: "(1:0) <script>   import Body from \\\"./Body.svelte\\\";   const bodyDataRequest = getBodyInformation();   const t = getTime();   let ticks = 0;    function addLeadingZero(n) {     if (n < 10) {       return \\\"0\\\" + n;     }",
+    		source: "(1:0) <script>   import Body from \\\"./Body.svelte\\\";   const bodyDataRequest = getBodyInformation();    function addLeadingZero(n) {     if (n < 10) {       return \\\"0\\\" + n;     }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (63:38)      {#each bodies as body}
+    // (77:40)        {#each bodies as body}
     function create_then_block(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value = /*bodies*/ ctx[3];
+    	let each_value = /*bodies*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -620,7 +613,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*bodyDataRequest*/ 1) {
-    				each_value = /*bodies*/ ctx[3];
+    				each_value = /*bodies*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -675,20 +668,20 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(63:38)      {#each bodies as body}",
+    		source: "(77:40)        {#each bodies as body}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (64:4) {#each bodies as body}
+    // (78:6) {#each bodies as body}
     function create_each_block(ctx) {
     	let body;
     	let current;
 
     	body = new Body({
-    			props: { object: /*body*/ ctx[4] },
+    			props: { object: /*body*/ ctx[2] },
     			$$inline: true
     		});
 
@@ -719,14 +712,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(64:4) {#each bodies as body}",
+    		source: "(78:6) {#each bodies as body}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (1:0) <script>   import Body from "./Body.svelte";   const bodyDataRequest = getBodyInformation();   const t = getTime();   let ticks = 0;    function addLeadingZero(n) {     if (n < 10) {       return "0" + n;     }
+    // (1:0) <script>   import Body from "./Body.svelte";   const bodyDataRequest = getBodyInformation();    function addLeadingZero(n) {     if (n < 10) {       return "0" + n;     }
     function create_pending_block(ctx) {
     	const block = {
     		c: noop,
@@ -741,7 +734,7 @@ var app = (function () {
     		block,
     		id: create_pending_block.name,
     		type: "pending",
-    		source: "(1:0) <script>   import Body from \\\"./Body.svelte\\\";   const bodyDataRequest = getBodyInformation();   const t = getTime();   let ticks = 0;    function addLeadingZero(n) {     if (n < 10) {       return \\\"0\\\" + n;     }",
+    		source: "(1:0) <script>   import Body from \\\"./Body.svelte\\\";   const bodyDataRequest = getBodyInformation();    function addLeadingZero(n) {     if (n < 10) {       return \\\"0\\\" + n;     }",
     		ctx
     	});
 
@@ -752,8 +745,13 @@ var app = (function () {
     	let main;
     	let h1;
     	let t1;
-    	let promise;
+    	let header;
     	let t2;
+    	let a;
+    	let t4;
+    	let div;
+    	let promise;
+    	let t5;
     	let p;
     	let current;
 
@@ -764,7 +762,7 @@ var app = (function () {
     		pending: create_pending_block,
     		then: create_then_block,
     		catch: create_catch_block,
-    		value: 3,
+    		value: 1,
     		blocks: [,,,]
     	};
 
@@ -774,17 +772,30 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			h1 = element("h1");
-    			h1.textContent = "Tidsmaskin";
+    			h1.textContent = "Distances and light in space";
     			t1 = space();
+    			header = element("header");
+    			t2 = text("Solar system data from ");
+    			a = element("a");
+    			a.textContent = "https://www.astropy.org/";
+    			t4 = space();
+    			div = element("div");
     			info.block.c();
-    			t2 = space();
+    			t5 = space();
     			p = element("p");
-    			p.textContent = "... og dette er bare småtteri i forhold til de andre galaksene, som er minst\n    2,5 millioner lysår unna.";
-    			attr_dev(h1, "class", "svelte-1cp0utu");
-    			add_location(h1, file$1, 60, 2, 1343);
-    			add_location(p, file$1, 68, 2, 1485);
-    			attr_dev(main, "class", "svelte-1cp0utu");
-    			add_location(main, file$1, 59, 0, 1334);
+    			p.textContent = "... and these distances pale in comparison to the other galaxies, which are\n    at least 2.5 million light years away.";
+    			attr_dev(h1, "class", "svelte-1yrsg16");
+    			add_location(h1, file$1, 73, 2, 1404);
+    			attr_dev(a, "href", "https://www.astropy.org/");
+    			add_location(a, file$1, 74, 33, 1475);
+    			attr_dev(header, "class", "svelte-1yrsg16");
+    			add_location(header, file$1, 74, 2, 1444);
+    			attr_dev(div, "id", "solar-system-objects");
+    			attr_dev(div, "class", "svelte-1yrsg16");
+    			add_location(div, file$1, 75, 2, 1550);
+    			add_location(p, file$1, 83, 2, 1722);
+    			attr_dev(main, "class", "svelte-1yrsg16");
+    			add_location(main, file$1, 72, 0, 1395);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -793,10 +804,15 @@ var app = (function () {
     			insert_dev(target, main, anchor);
     			append_dev(main, h1);
     			append_dev(main, t1);
-    			info.block.m(main, info.anchor = null);
-    			info.mount = () => main;
-    			info.anchor = t2;
-    			append_dev(main, t2);
+    			append_dev(main, header);
+    			append_dev(header, t2);
+    			append_dev(header, a);
+    			append_dev(main, t4);
+    			append_dev(main, div);
+    			info.block.m(div, info.anchor = null);
+    			info.mount = () => div;
+    			info.anchor = null;
+    			append_dev(main, t5);
     			append_dev(main, p);
     			current = true;
     		},
@@ -805,7 +821,7 @@ var app = (function () {
 
     			{
     				const child_ctx = ctx.slice();
-    				child_ctx[3] = info.resolved;
+    				child_ctx[1] = info.resolved;
     				info.block.p(child_ctx, dirty);
     			}
     		},
@@ -849,12 +865,6 @@ var app = (function () {
     	return n;
     }
 
-    async function getTime() {
-    	const response = await fetch("./get-current-time");
-    	const data = await response.text();
-    	return data;
-    }
-
     async function getBodyInformation() {
     	const response = await fetch("./get-body-info");
     	const data = await response.text();
@@ -870,8 +880,6 @@ var app = (function () {
 
     function instance$1($$self, $$props, $$invalidate) {
     	const bodyDataRequest = getBodyInformation();
-    	const t = getTime();
-    	let ticks = 0;
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -884,20 +892,9 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Body,
     		bodyDataRequest,
-    		t,
-    		ticks,
     		addLeadingZero,
-    		getTime,
     		getBodyInformation
     	});
-
-    	$$self.$inject_state = $$props => {
-    		if ("ticks" in $$props) ticks = $$props.ticks;
-    	};
-
-    	if ($$props && "$$inject" in $$props) {
-    		$$self.$inject_state($$props.$$inject);
-    	}
 
     	return [bodyDataRequest];
     }

@@ -3,17 +3,19 @@
 </script>
 
 <style>
+  h1 {
+    text-transform: uppercase;
+  }
   .space-object {
     border: 1px solid black;
     border-radius: 4px;
     padding: 10px;
     margin: 10px;
-    max-width: 25%;
-    display: inline-block;
+    flex: 0 0 25%;
   }
 </style>
 
 <div class="space-object">
   <h1>{object.name}</h1>
-  <p>Når du ser på {object.name} ser du {object.delta} tilbake i tid.</p>
+  <p>You're seeing what it looked like {object.delta} ago</p>
 </div>

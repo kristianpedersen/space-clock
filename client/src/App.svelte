@@ -1,20 +1,12 @@
 <script>
   import Body from "./Body.svelte";
   const bodyDataRequest = getBodyInformation();
-  const t = getTime();
-  let ticks = 0;
 
   function addLeadingZero(n) {
     if (n < 10) {
       return "0" + n;
     }
     return n;
-  }
-
-  async function getTime() {
-    const response = await fetch("./get-current-time");
-    const data = await response.text();
-    return data;
   }
 
   async function getBodyInformation() {
@@ -44,30 +36,53 @@
     max-width: 240px;
     margin: 0 auto;
   }
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
+
+  #solar-system-objects {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
+
+  h1 {
+    font-size: 4em;
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+  h1, h2 {
+    color: hsl(20, 100%, 50%);
+    text-transform: uppercase;
+    /* font-size: 4em; */
+    font-weight: 100;
+    display: block;
+  }
+
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
   }
+
+  header {
+    margin-bottom: 40px;
+  }
 </style>
 
 <main>
-  <h1>Tidsmaskin</h1>
-
-  {#await bodyDataRequest then bodies}
-    {#each bodies as body}
-      <Body object={body} />
-    {/each}
-  {/await}
+  <h1>Distances and light in space</h1>
+  <header>Solar system data from <a href="https://www.astropy.org/">https://www.astropy.org/</a></header>
+  <div id="solar-system-objects">
+    {#await bodyDataRequest then bodies}
+      {#each bodies as body}
+        <Body object={body} />
+      {/each}
+    {/await}
+  </div>
 
   <p>
-    ... og dette er bare småtteri i forhold til de andre galaksene, som er minst
-    2,5 millioner lysår unna.
+    ... and these distances pale in comparison to the other galaxies, which are
+    at least 2.5 million light years away.
   </p>
 </main>
