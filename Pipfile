@@ -10,6 +10,7 @@ astropy = "*"
 flask = "*"
 pytz = "*"
 jplephem = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
